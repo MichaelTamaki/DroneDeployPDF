@@ -95,7 +95,8 @@ function getZoom(geometry) {
 
 
 // Initialize app by producing a canvas. The canvas will include the tiles needed
-// to reproduce the map in the pdf format.
+// to reproduce the map in the pdf format. The canvas needs to be rendered first
+// to make sure that the images will load and compile before enabling the button.
 var tileList = document.querySelector('#tile-list');
 new DroneDeploy({version: 1}).then(function(dronedeploy){
   dronedeploy.Plans.getCurrentlyViewed().then(function(plan){
@@ -109,6 +110,7 @@ new DroneDeploy({version: 1}).then(function(dronedeploy){
         c.height = 256 * zoomRet.dy;
         var ctx = c.getContext('2d');
         var imgLoadedCnt = 0; // When all images are loaded, enable the button (see below img.onload)
+        var dataURL;
         // Iterate through all the tiles and draw the images to the canvas
         for (var y = 0; y < zoomRet.dy; y++) {
           for (var x = 0; x < zoomRet.dx; x++) {
@@ -122,6 +124,7 @@ new DroneDeploy({version: 1}).then(function(dronedeploy){
               ctx.drawImage(this, 256 * this.dataset.x, 256 * this.dataset.y, 256, 256);
               imgLoadedCnt++;
               if (imgLoadedCnt == zoomRet.dx * zoomRet.dy) {
+                dataURL = c.toDataURL();
                 document.getElementById('pdf-generate').disabled = false;
               }
             };
@@ -130,7 +133,6 @@ new DroneDeploy({version: 1}).then(function(dronedeploy){
 
         // When the user clicks the generate button, it will generate and save the pdf
         document.getElementById('pdf-generate').onclick = function() {
-          var dataURL = c.toDataURL();
           var doc = new jsPDF({
             orientation: zoomRet.orientation,
             unit: 'pt'

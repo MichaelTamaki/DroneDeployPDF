@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Generate</title>
+  <style>
+    #pdf-generate {
+      width: 100%;
+    }
+    #pdf-icon {
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+    #pdf-description {
+      line-height: 50px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+</head>
+<body>
+
+<button id="pdf-generate" disabled>
+  <div>
+    <img id="pdf-icon" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU2IDU2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NiA1NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6I0U5RTlFMDsiIGQ9Ik0zNi45ODUsMEg3Ljk2M0M3LjE1NSwwLDYuNSwwLjY1NSw2LjUsMS45MjZWNTVjMCwwLjM0NSwwLjY1NSwxLDEuNDYzLDFoNDAuMDc0ICAgYzAuODA4LDAsMS40NjMtMC42NTUsMS40NjMtMVYxMi45NzhjMC0wLjY5Ni0wLjA5My0wLjkyLTAuMjU3LTEuMDg1TDM3LjYwNywwLjI1N0MzNy40NDIsMC4wOTMsMzcuMjE4LDAsMzYuOTg1LDB6Ii8+Cgk8cG9seWdvbiBzdHlsZT0iZmlsbDojRDlEN0NBOyIgcG9pbnRzPSIzNy41LDAuMTUxIDM3LjUsMTIgNDkuMzQ5LDEyICAiLz4KCTxwYXRoIHN0eWxlPSJmaWxsOiNDQzRCNEM7IiBkPSJNMTkuNTE0LDMzLjMyNEwxOS41MTQsMzMuMzI0Yy0wLjM0OCwwLTAuNjgyLTAuMTEzLTAuOTY3LTAuMzI2ICAgYy0xLjA0MS0wLjc4MS0xLjE4MS0xLjY1LTEuMTE1LTIuMjQyYzAuMTgyLTEuNjI4LDIuMTk1LTMuMzMyLDUuOTg1LTUuMDY4YzEuNTA0LTMuMjk2LDIuOTM1LTcuMzU3LDMuNzg4LTEwLjc1ICAgYy0wLjk5OC0yLjE3Mi0xLjk2OC00Ljk5LTEuMjYxLTYuNjQzYzAuMjQ4LTAuNTc5LDAuNTU3LTEuMDIzLDEuMTM0LTEuMjE1YzAuMjI4LTAuMDc2LDAuODA0LTAuMTcyLDEuMDE2LTAuMTcyICAgYzAuNTA0LDAsMC45NDcsMC42NDksMS4yNjEsMS4wNDljMC4yOTUsMC4zNzYsMC45NjQsMS4xNzMtMC4zNzMsNi44MDJjMS4zNDgsMi43ODQsMy4yNTgsNS42Miw1LjA4OCw3LjU2MiAgIGMxLjMxMS0wLjIzNywyLjQzOS0wLjM1OCwzLjM1OC0wLjM1OGMxLjU2NiwwLDIuNTE1LDAuMzY1LDIuOTAyLDEuMTE3YzAuMzIsMC42MjIsMC4xODksMS4zNDktMC4zOSwyLjE2ICAgYy0wLjU1NywwLjc3OS0xLjMyNSwxLjE5MS0yLjIyLDEuMTkxYy0xLjIxNiwwLTIuNjMyLTAuNzY4LTQuMjExLTIuMjg1Yy0yLjgzNywwLjU5My02LjE1LDEuNjUxLTguODI4LDIuODIyICAgYy0wLjgzNiwxLjc3NC0xLjYzNywzLjIwMy0yLjM4Myw0LjI1MUMyMS4yNzMsMzIuNjU0LDIwLjM4OSwzMy4zMjQsMTkuNTE0LDMzLjMyNHogTTIyLjE3NiwyOC4xOTggICBjLTIuMTM3LDEuMjAxLTMuMDA4LDIuMTg4LTMuMDcxLDIuNzQ0Yy0wLjAxLDAuMDkyLTAuMDM3LDAuMzM0LDAuNDMxLDAuNjkyQzE5LjY4NSwzMS41ODcsMjAuNTU1LDMxLjE5LDIyLjE3NiwyOC4xOTh6ICAgIE0zNS44MTMsMjMuNzU2YzAuODE1LDAuNjI3LDEuMDE0LDAuOTQ0LDEuNTQ3LDAuOTQ0YzAuMjM0LDAsMC45MDEtMC4wMSwxLjIxLTAuNDQxYzAuMTQ5LTAuMjA5LDAuMjA3LTAuMzQzLDAuMjMtMC40MTUgICBjLTAuMTIzLTAuMDY1LTAuMjg2LTAuMTk3LTEuMTc1LTAuMTk3QzM3LjEyLDIzLjY0OCwzNi40ODUsMjMuNjcsMzUuODEzLDIzLjc1NnogTTI4LjM0MywxNy4xNzQgICBjLTAuNzE1LDIuNDc0LTEuNjU5LDUuMTQ1LTIuNjc0LDcuNTY0YzIuMDktMC44MTEsNC4zNjItMS41MTksNi40OTYtMi4wMkMzMC44MTUsMjEuMTUsMjkuNDY2LDE5LjE5MiwyOC4zNDMsMTcuMTc0eiAgICBNMjcuNzM2LDguNzEyYy0wLjA5OCwwLjAzMy0xLjMzLDEuNzU3LDAuMDk2LDMuMjE2QzI4Ljc4MSw5LjgxMywyNy43NzksOC42OTgsMjcuNzM2LDguNzEyeiIvPgoJPHBhdGggc3R5bGU9ImZpbGw6I0NDNEI0QzsiIGQ9Ik00OC4wMzcsNTZINy45NjNDNy4xNTUsNTYsNi41LDU1LjM0NSw2LjUsNTQuNTM3VjM5aDQzdjE1LjUzN0M0OS41LDU1LjM0NSw0OC44NDUsNTYsNDguMDM3LDU2eiIvPgoJPGc+CgkJPHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0xNy4zODUsNTNoLTEuNjQxVjQyLjkyNGgyLjg5OGMwLjQyOCwwLDAuODUyLDAuMDY4LDEuMjcxLDAuMjA1ICAgIGMwLjQxOSwwLjEzNywwLjc5NSwwLjM0MiwxLjEyOCwwLjYxNWMwLjMzMywwLjI3MywwLjYwMiwwLjYwNCwwLjgwNywwLjk5MXMwLjMwOCwwLjgyMiwwLjMwOCwxLjMwNiAgICBjMCwwLjUxMS0wLjA4NywwLjk3My0wLjI2LDEuMzg4Yy0wLjE3MywwLjQxNS0wLjQxNSwwLjc2NC0wLjcyNSwxLjA0NmMtMC4zMSwwLjI4Mi0wLjY4NCwwLjUwMS0xLjEyMSwwLjY1NiAgICBzLTAuOTIxLDAuMjMyLTEuNDQ5LDAuMjMyaC0xLjIxN1Y1M3ogTTE3LjM4NSw0NC4xNjh2My45OTJoMS41MDRjMC4yLDAsMC4zOTgtMC4wMzQsMC41OTUtMC4xMDMgICAgYzAuMTk2LTAuMDY4LDAuMzc2LTAuMTgsMC41NC0wLjMzNWMwLjE2NC0wLjE1NSwwLjI5Ni0wLjM3MSwwLjM5Ni0wLjY0OWMwLjEtMC4yNzgsMC4xNS0wLjYyMiwwLjE1LTEuMDMyICAgIGMwLTAuMTY0LTAuMDIzLTAuMzU0LTAuMDY4LTAuNTY3Yy0wLjA0Ni0wLjIxNC0wLjEzOS0wLjQxOS0wLjI4LTAuNjE1Yy0wLjE0Mi0wLjE5Ni0wLjM0LTAuMzYtMC41OTUtMC40OTIgICAgYy0wLjI1NS0wLjEzMi0wLjU5My0wLjE5OC0xLjAxMi0wLjE5OEgxNy4zODV6Ii8+CgkJPHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0zMi4yMTksNDcuNjgyYzAsMC44MjktMC4wODksMS41MzgtMC4yNjcsMi4xMjZzLTAuNDAzLDEuMDgtMC42NzcsMS40NzdzLTAuNTgxLDAuNzA5LTAuOTIzLDAuOTM3ICAgIHMtMC42NzIsMC4zOTgtMC45OTEsMC41MTNjLTAuMzE5LDAuMTE0LTAuNjExLDAuMTg3LTAuODc1LDAuMjE5QzI4LjIyMiw1Mi45ODQsMjguMDI2LDUzLDI3Ljg5OCw1M2gtMy44MTRWNDIuOTI0aDMuMDM1ICAgIGMwLjg0OCwwLDEuNTkzLDAuMTM1LDIuMjM1LDAuNDAzczEuMTc2LDAuNjI3LDEuNiwxLjA3M3MwLjc0LDAuOTU1LDAuOTUsMS41MjRDMzIuMTE0LDQ2LjQ5NCwzMi4yMTksNDcuMDgsMzIuMjE5LDQ3LjY4MnogICAgIE0yNy4zNTIsNTEuNzk3YzEuMTEyLDAsMS45MTQtMC4zNTUsMi40MDYtMS4wNjZzMC43MzgtMS43NDEsMC43MzgtMy4wOWMwLTAuNDE5LTAuMDUtMC44MzQtMC4xNS0xLjI0NCAgICBjLTAuMTAxLTAuNDEtMC4yOTQtMC43ODEtMC41ODEtMS4xMTRzLTAuNjc3LTAuNjAyLTEuMTY5LTAuODA3cy0xLjEzLTAuMzA4LTEuOTE0LTAuMzA4aC0wLjk1N3Y3LjYyOUgyNy4zNTJ6Ii8+CgkJPHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0zNi4yNjYsNDQuMTY4djMuMTcyaDQuMjExdjEuMTIxaC00LjIxMVY1M2gtMS42NjhWNDIuOTI0SDQwLjl2MS4yNDRIMzYuMjY2eiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=" />
+    <p id="pdf-description">Generate PDF of map</p>
+  </div>
+</button>
+
+<script>
+
+
+// Helper function that returns an array of tile URLs to be used to generate
+// the PDF of the map
+function getTilesFromGeometry(template, zoom, dx, dy, top_tile, left_tile){
+  function replaceInTemplate(point){
+    return template.replace('{z}', point.z)
+      .replace('{x}', point.x)
+      .replace('{y}', point.y);
+  }
+
+  var tiles = [];
+  for (var y = top_tile; y < top_tile + dy; y++) {
+    for (var x = left_tile; x < left_tile + dx; x++) {
+      tiles.push(replaceInTemplate({x, y, z: zoom}))
+    }
+  }
+
+  return tiles;
+}
+
+// Helper function to get the information needed to find all tiles 
+function getZoom(geometry) {
+
+  // Helper functions that returns an array of lat/lng of geometry's points
+  var allLat = geometry.map(function(point){
+    return point.lat;
+  });
+  var allLng = geometry.map(function(point){
+    return point.lng;
+  });
+
+  // Helper functions with fancy math to find values for the template's x and y
+  function long2tile(lon,zoom) {
+    return (Math.floor((lon+180)/360*Math.pow(2,zoom)));
+  }
+  function lat2tile(lat,zoom) {
+    return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom)));
+  }
+
+  // Get dimensions of the plan's geometry
+  var minLat = Math.min.apply(null, allLat);
+  var maxLat = Math.max.apply(null, allLat);
+  var minLng = Math.min.apply(null, allLng);
+  var maxLng = Math.max.apply(null, allLng);
+  var zoom = 30;
+  while (zoom > 0) {
+    // Calculate how many tiles are in the width/height
+    var top_tile    = lat2tile(maxLat, zoom);
+    var left_tile   = long2tile(minLng, zoom);
+    var bottom_tile = lat2tile(minLat, zoom);
+    var right_tile  = long2tile(maxLng, zoom);
+    var dx = (right_tile + 1) - left_tile;
+    var dy = (bottom_tile + 1) - top_tile
+
+    if (dx <= 3 && dy <= 4) {
+      return {zoom: zoom, dx: dx, dy: dy, topTile: top_tile, leftTile: left_tile, orientation: 'p'}
+    }
+    if (dx <= 4 && dy <= 3) {
+      return {zoom: zoom, dx: dx, dy: dy, topTile: top_tile, leftTile: left_tile, orientation: 'l'}
+    }
+    zoom--;
+  }
+}
+
+
+// Initialize app by producing a canvas. The canvas will include the tiles needed
+// to reproduce the map in the pdf format.
+var tileList = document.querySelector('#tile-list');
+new DroneDeploy({version: 1}).then(function(dronedeploy){
+  dronedeploy.Plans.getCurrentlyViewed().then(function(plan){
+    var zoomRet = getZoom(plan.geometry);
+    dronedeploy.Tiles.get({planId: plan.id, layerName: 'ortho', zoom: zoomRet.zoom})
+      .then(function(res){
+        var tiles = getTilesFromGeometry(res.template, zoomRet.zoom, zoomRet.dx, zoomRet.dy, zoomRet.topTile, zoomRet.leftTile);
+        // Generate a canvas with dimensions corresponding to the dx/dy of tiles
+        var c = document.createElement('canvas');
+        c.width = 256 * zoomRet.dx;
+        c.height = 256 * zoomRet.dy;
+        var ctx = c.getContext('2d');
+        var imgLoadedCnt = 0; // When all images are loaded, enable the button (see below img.onload)
+        // Iterate through all the tiles and draw the images to the canvas
+        for (var y = 0; y < zoomRet.dy; y++) {
+          for (var x = 0; x < zoomRet.dx; x++) {
+            var img = document.createElement('img');
+            var proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Evade CORS security
+            img.src = proxyUrl + tiles[(y * zoomRet.dx) + x];
+            img.crossOrigin = "Anonymous"; // Evade CORS security
+            img.dataset.x = x; // Used for drawImage below...
+            img.dataset.y = y;
+            img.onload = function () { // When an image loads, draw it to the context.
+              ctx.drawImage(this, 256 * this.dataset.x, 256 * this.dataset.y, 256, 256);
+              imgLoadedCnt++;
+              if (imgLoadedCnt == zoomRet.dx * zoomRet.dy) {
+                document.getElementById('pdf-generate').disabled = false;
+              }
+            };
+          }
+        }
+
+        // When the user clicks the generate button, it will generate and save the pdf
+        document.getElementById('pdf-generate').onclick = function() {
+          var dataURL = c.toDataURL();
+          var doc = new jsPDF({
+            orientation: zoomRet.orientation,
+            unit: 'pt'
+          });
+          // 256 px = 192 pt
+          doc.addImage(dataURL, 'PNG', 0, 0, 192 * zoomRet.dx, 192 * zoomRet.dy);
+          doc.save('map.pdf');
+        };
+      });
+  });
+});
+
+</script>
+
+</body>
+</html>
